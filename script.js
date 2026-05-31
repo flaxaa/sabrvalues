@@ -11,7 +11,7 @@ fetch('/sabrvalues/ogbrdata.json?v=1.1')
         directory.innerHTML = ''; // Clear out the loading placeholder text
 
         // 2. Loop through every single unit inside your JSON array
-        data.secret_units.forEach(unit => {
+            data.og_units.forEach(unit => {
             // Create the structural button card element
             const btn = document.createElement('div');
             btn.className = 'img-directory-btn';
