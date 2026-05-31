@@ -11,13 +11,13 @@ fetch('ogbrdata.json')
             const btn = document.createElement('div');
             btn.className = 'img-directory-btn';
             
-            // Set up fallback image formatting logic (e.g. strawberry_elephant.png)
-            const imageFilename = `images/${unit.id}.png`;
+            // Inside your script.js data looping logic:
+        const imageFilename = `images/${unit.id}.png`;
 
             btn.innerHTML = `
-                <img src="${imageFilename}" alt="${unit.name}" class="btn-item-thumb" onerror="this.src='https://placehold.co/200x160/1a1a2e/ffffff?text=Image'">
-                <div class="btn-item-name">${unit.name}</div>
-            `;
+            <img src="${imageFilename}" alt="${unit.name}" class="btn-item-thumb" onerror="this.src='https://placehold.co/240x180/111318/ffffff?text=No+Image'">
+            <div class="btn-item-name">${unit.name}</div>
+`;
 
             // When clicked, trigger the popup display showing the parameters
             btn.onclick = () => openModalWithData(unit);
