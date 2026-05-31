@@ -1,3 +1,75 @@
+/* --- Global Setup --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial Black', 'Impact', sans-serif; 
+    font-weight: 900;
+}
+
+body {
+    background-color: #0b0c10;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- Custom Particle Cursor Setup --- */
+.cursor-particle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #00f2fe;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s linear;
+    z-index: 9999;
+}
+
+/* --- Top Navigation Bar --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #14161a;
+    border-bottom: 2px solid rgba(0, 242, 254, 0.2);
+    padding: 15px 40px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-logo {
+    font-size: 1.6rem;
+    color: #00f2fe;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-item {
+    color: #aaaaaa;
+    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
 /* --- Page Switch Visibility Rules --- */
 .page-section {
     display: none;
@@ -20,16 +92,12 @@
     object-fit: cover;
     border-radius: 20px;
     border: 3px solid rgba(0, 242, 254, 0.3);
-    box-shadow: 0 15px 40px rgba(0, 242, 254, 0.15);
     margin-bottom: 40px;
 }
 
 .hero-title {
     font-size: 3.8rem;
-    letter-spacing: 2px;
-    background: linear-gradient(45deg, #00f2fe, #a18cd1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #00f2fe;
     margin-bottom: 15px;
 }
 
@@ -43,9 +111,9 @@
     margin: 0 auto 40px auto;
 }
 
-/* --- "See Values" Core Interactive Button --- */
+/* --- "See Values" Button --- */
 .cta-button {
-    background: linear-gradient(90deg, #00f2fe, #4facfe);
+    background: #00f2fe;
     color: #0b0c10;
     border: none;
     padding: 18px 45px;
@@ -59,10 +127,29 @@
 .cta-button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
-    letter-spacing: 1px;
 }
 
-/* --- Image Directory Button Grid --- */
+/* --- Directory Grid Layout --- */
+.main-container {
+    max-width: 1200px;
+    margin: 120px auto 40px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    font-family: sans-serif;
+    font-weight: normal;
+    color: #66788a;
+    font-size: 1.1rem;
+}
+
 .directory-grid-layout {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -71,30 +158,27 @@
 }
 
 .img-directory-btn {
-    background: rgba(255, 255, 255, 0.02);
+    background: #1a1c23;
     border: 2px solid rgba(255, 255, 255, 0.06);
     border-radius: 16px;
     padding: 15px;
     cursor: pointer;
     text-align: center;
     transition: all 0.2s ease;
-    backdrop-filter: blur(5px);
 }
 
 .img-directory-btn:hover {
     transform: translateY(-5px);
     border-color: #00f2fe;
-    box-shadow: 0 8px 25px rgba(0, 242, 254, 0.2);
 }
 
 .btn-item-thumb {
     width: 100%;
     height: 160px;
     object-fit: contain;
-    background: rgba(0, 0, 0, 0.3);
+    background: #000000;
     border-radius: 12px;
     margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .btn-item-name {
@@ -103,15 +187,14 @@
     text-transform: uppercase;
 }
 
-/* --- Data Popup Window Modal (Glassmorphism Overlay) --- */
+/* --- Data Popup Window Modal --- */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(4, 5, 8, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(4, 5, 8, 0.9);
     z-index: 2000;
     display: flex;
     justify-content: center;
@@ -128,13 +211,12 @@
 
 .modal-content {
     background: #111318;
-    border: 2px solid rgba(0, 242, 254, 0.3);
+    border: 2px solid #00f2fe;
     border-radius: 24px;
     width: 90%;
     max-width: 480px;
     padding: 35px;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
 }
 
 .close-modal-btn {
@@ -147,4 +229,49 @@
     font-size: 2rem;
     cursor: pointer;
 }
+
 .close-modal-btn:hover { color: #ffffff; }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.rarity-badge {
+    background: rgba(155, 89, 182, 0.2);
+    color: #9b59b6;
+    border: 1px solid rgba(155, 89, 182, 0.4);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+.status-rising { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.status-stable { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+.status-dropping { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+.stat-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.stat-line span:first-child {
+    color: #888888;
+}
+
+.value-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid rgba(255, 255, 255, 0.04);
+}
