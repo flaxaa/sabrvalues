@@ -3,22 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steal a Brainrot Value Database</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #1a1a1a; color: white; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: #2a2a2a; padding: 15px; border-radius: 8px; border: 1px solid #444; }
-        .rarity-og { color: #ff4554; font-weight: bold; }
-        .rarity-common { color: #a0a0a0; }
-    </style>
+    <title>SABR VALUES | Home</title>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>🧠 Central Brainrot Database</h1>
-    <p>All values are loaded dynamically from our master list.</p>
-    
-    <div id="database-grid" class="grid">Loading values...</div>
+    <nav class="navbar">
+        <div class="nav-logo">SABR VALUES</div>
+        <div class="nav-links">
+            <span class="nav-item active">Values</span>
+            <span class="nav-item">Trade Calculator</span>
+            <span class="nav-item">FAQ</span>
+        </div>
+    </nav>
 
-    <script src="script.js"></script>
+    <div class="main-container">
+        <h1 class="main-title">Central Database</h1>
+        <p class="subtitle">CSS and structure linked successfully. Ready for data injection.</p>
+    </div>
+
+    <script>
+        const body = document.body;
+        const maxParticles = 15;
+        const particles = [];
+
+        window.addEventListener('mousemove', (e) => {
+            const particle = document.createElement('div');
+            particle.className = 'cursor-particle';
+            particle.style.left = e.clientX + 'px';
+            particle.style.top = e.clientY + 'px';
+            
+            body.appendChild(particle);
+            particles.push(particle);
+
+            setTimeout(() => {
+                particle.style.transform = 'translate(-50%, -50%) scale(0)';
+                particle.style.opacity = '0';
+            }, 50);
+
+            if (particles.length > maxParticles) {
+                const oldParticle = particles.shift();
+                oldParticle.remove();
+            }
+        });
+    </script>
 </body>
 </html>
