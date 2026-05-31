@@ -1,6 +1,6 @@
 {
   "last_updated": "May 2026",
-  "og_units": [6]
+  "og_units": [
     {
       "id": "strawberry_elephant",
       "name": "Strawberry Elephant",
@@ -34,8 +34,8 @@
       "tier": "OG",
       "buy_price": "500.0B",
       "income_per_second": "500.0M",
-      "demand": "Slightly High"
-      "drag_value": "8-9
+      "demand": "Slightly High",
+      "drag_value": "8-9"
     },
     {
       "id": "headless_horseman",
@@ -43,17 +43,17 @@
       "tier": "OG",
       "buy_price": "575.0B",
       "income_per_second": "575.0M",
-      "demand": "Very High"
+      "demand": "Very High",
       "drag_value": "8-9"
     },
     {
       "id": "spyder_elephant",
       "name": "Spyder Elephant",
-      "status": "Un-Obtainable",
+      "status": "Obtainable from Gamepass",
       "tier": "OG",
       "buy_price": "1.0T",
-      "income_per_second": "1.0B"
+      "income_per_second": "1.0B",
       "demand": "Null (Un-Tradable)"
-    },
+    }
   ]
 }
