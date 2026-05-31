@@ -1,40 +1,48 @@
-// Connect directly to your comprehensive OG dataset file
-fetch('ogbrdata.json')
-    .then(response => response.json())
+// 1. Fetch your comprehensive OG dataset file
+fetch('/sabrvalues/ogbrdata.json?v=1.1')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         const directory = document.getElementById('directory-grid');
-        directory.innerHTML = ''; // Clear default load strings
+        directory.innerHTML = ''; // Clear out the loading placeholder text
 
-        // Read records inside the data array
+        // 2. Loop through every single unit inside your JSON array
         data.secret_units.forEach(unit => {
-            // Create a structural link card button
+            // Create the structural button card element
             const btn = document.createElement('div');
             btn.className = 'img-directory-btn';
             
-            // Inside your script.js data looping logic:
-        const imageFilename = `images/${unit.id}.png`;
+            // Set up the path to look inside your new images folder using the unit's id
+            const imageFilename = `/sabrvalues/images/${unit.id}.png`;
 
+            // Build the HTML inside the button (Image + Text)
             btn.innerHTML = `
-            <img src="${imageFilename}" alt="${unit.name}" class="btn-item-thumb" onerror="this.src='https://placehold.co/240x180/111318/ffffff?text=No+Image'">
-            <div class="btn-item-name">${unit.name}</div>
-`;
+                <img src="${imageFilename}" alt="${unit.name}" class="btn-item-thumb" onerror="this.src='https://placehold.co/240x180/111318/ffffff?text=No+Image'">
+                <div class="btn-item-name">${unit.name}</div>
+            `;
 
-            // When clicked, trigger the popup display showing the parameters
+            // 3. INTERACTIVE TRIGGER: When someone clicks this button, open the modal popup with its data
             btn.onclick = () => openModalWithData(unit);
 
+            // Throw the newly created button into your website's directory grid
             directory.appendChild(btn);
         });
     })
     .catch(error => {
         console.error('Data pull failed:', error);
-        document.getElementById('directory-grid').innerText = 'Sync Error: Check if ogbrdata.json is compiled cleanly.';
+        document.getElementById('directory-grid').innerText = 'Sync Error: Make sure your ogbrdata.json file is formatted correctly without typos!';
     });
 
-// --- Modal Display Engine ---
+// --- 4. Popup Data Modal Window Engine ---
 function openModalWithData(unit) {
     const modal = document.getElementById('data-modal');
     const bodyContent = document.getElementById('modal-body-content');
 
+    // Custom coloring logic for your special "Dragon Value" benchmark metric
     let dragValueHTML = '';
     if (unit.drag_value && unit.drag_value !== 'N/A' && unit.drag_value !== '0') {
         dragValueHTML = `<span style="color: #ff9f43;">🐉 Dragon Value: ${unit.drag_value}</span>`;
@@ -42,27 +50,29 @@ function openModalWithData(unit) {
         dragValueHTML = `<span style="color: #57606f;">🐉 Dragon Value: Under 1</span>`;
     }
 
-    // Load full dataset records right inside the pop-up window frame
+    // Load all the dataset parameters directly inside the dynamic glass popup layout
     bodyContent.innerHTML = `
-        <div class="card-header" style="margin-bottom:20px;">
+        <div class="card-header" style="margin-bottom: 20px;">
             <span class="rarity-badge">${unit.tier}</span>
             <span class="status-badge status-${unit.status.toLowerCase()}">${unit.status}</span>
         </div>
-        <h2 style="font-size:1.8rem; margin-bottom:25px; color:#fff;">${unit.name}</h2>
+        <h2 style="font-size: 1.8rem; margin-bottom: 25px; color: #fff; text-transform: uppercase;">${unit.name}</h2>
         
-        <div class="stat-line"><span>Income:</span> <span>$${unit.income_per_second}/s</span></div>
-        <div class="stat-line"><span>Buy Price:</span> <span>$${unit.buy_price}</span></div>
+        <div class="stat-line"><span>Income Generation:</span> <span>$${unit.income_per_second}/s</span></div>
+        <div class="stat-line"><span>Base Buy Price:</span> <span>$${unit.buy_price}</span></div>
         
         <div class="value-section">
-            <div class="stat-line"><span>Token Value:</span> <span style="color: #00f2fe;">${unit.trading_value}</span></div>
+            <div class="stat-line"><span>Token Trading Value:</span> <span style="color: #00f2fe;">${unit.trading_value}</span></div>
             <div class="stat-line">${dragValueHTML}</div>
-            <div class="stat-line" style="margin-top:10px;"><span>Market Demand:</span> <span style="color:#fff;">${unit.demand}</span></div>
+            <div class="stat-line" style="margin-top: 10px;"><span>Market Demand:</span> <span style="color: #fff;">${unit.demand}</span></div>
         </div>
     `;
 
+    // Make the popup box smoothly appear on screen
     modal.classList.add('active-modal');
 }
 
+// Function to shut down the popup overlay
 function closeModal() {
     document.getElementById('data-modal').classList.remove('active-modal');
 }
