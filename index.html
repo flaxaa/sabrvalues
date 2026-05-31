@@ -4,28 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SABR VALUES | Home</title>
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="nav-logo">SABR VALUES</div>
+        <div class="nav-logo" onclick="showPage('home')">SABR VALUES</div>
         <div class="nav-links">
-            <span class="nav-item active">Values</span>
+            <span class="nav-item" id="nav-home" onclick="showPage('home')">Home</span>
+            <span class="nav-item" id="nav-values" onclick="showPage('values')">Values</span>
             <span class="nav-item">Trade Calculator</span>
             <span class="nav-item">FAQ</span>
         </div>
     </nav>
 
-    <div class="main-container">
-        <h1 class="main-title">Central Database</h1>
-        <p class="subtitle">CSS and structure linked successfully. Ready for data injection.</p>
+    <div id="home-page" class="page-section active-page">
+        <div class="hero-container">
+            <img src="banner.png" alt="SABR Meta Artwork" class="hero-image">
+            <h1 class="hero-title">THE ULTIMATE OG DATABASE</h1>
+            <p class="hero-subtitle">Track values, real-time demand, stability tiers, and Dragon benchmarks for the absolute rarest items in Steal a Brainrot.</p>
+            <button class="cta-button" onclick="showPage('values')">SEE VALUES</button>
+        </div>
+    </div>
+
+    <div id="values-page" class="page-section">
+        <div class="main-container">
+            <h1 class="main-title">OG BRAINROT DIRECTORY</h1>
+            <p class="subtitle">Select an OG tier brainrot below to unpack its market parameters and trading depth.</p>
+            
+            <div id="directory-grid" class="directory-grid-layout">Loading database units...</div>
+        </div>
+    </div>
+
+    <div id="data-modal" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal-btn" onclick="closeModal()">&times;</button>
+            <div id="modal-body-content">
+                </div>
+        </div>
     </div>
 
     <script>
+        // --- Page Navigation Engine ---
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active-page'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            // Show selected page
+            document.getElementById(pageId + '-page').classList.add('active-page');
+            document.getElementById('nav-' + pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // --- Custom Particle Cursor Tracker ---
         const body = document.body;
-        const maxParticles = 15;
+        const maxParticles = 12;
         const particles = [];
 
         window.addEventListener('mousemove', (e) => {
@@ -40,7 +74,7 @@
             setTimeout(() => {
                 particle.style.transform = 'translate(-50%, -50%) scale(0)';
                 particle.style.opacity = '0';
-            }, 50);
+            }, 60);
 
             if (particles.length > maxParticles) {
                 const oldParticle = particles.shift();
@@ -48,5 +82,7 @@
             }
         });
     </script>
+    
+    <script src="script.js"></script>
 </body>
 </html>
