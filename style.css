@@ -1,0 +1,104 @@
+/* --- Global Setup --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* Bold, modern Sans-Serif font across the entire site */
+    font-family: 'Arial Black', 'Impact', sans-serif; 
+    font-weight: 900;
+}
+
+body {
+    background-color: #0b0c10;
+    /* Visually appealing deep neon ambient background */
+    background-image: 
+        radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, hsla(180,50%,20%,0.15) 0, transparent 50%),
+        radial-gradient(at 100% 100%, hsla(280,50%,15%,0.15) 0, transparent 50%);
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- Custom Particle Cursor Setup --- */
+.cursor-particle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #00f2fe;
+    border-radius: 50%;
+    pointer-events: none; /* Keeps particles from blocking clicks */
+    box-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s linear;
+    z-index: 9999;
+}
+
+/* --- Top Navigation Bar --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(20, 22, 26, 0.75);
+    border-bottom: 2px solid rgba(0, 242, 254, 0.2);
+    padding: 15px 40px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-logo {
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-item {
+    color: #aaaaaa;
+    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+    transform: scale(1.05);
+}
+
+/* --- Main Content Container --- */
+.main-container {
+    max-width: 1200px;
+    margin: 120px auto 40px auto; /* Space for the fixed top navbar */
+    padding: 0 20px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-family: sans-serif; /* Cleaner standard font for subtext descriptions */
+    font-weight: normal;
+    color: #66788a;
+    font-size: 1.1rem;
+}
