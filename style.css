@@ -129,149 +129,68 @@ body {
     box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
 }
 
-/* --- Directory Grid Layout --- */
-.main-container {
-    max-width: 1200px;
-    margin: 120px auto 40px auto;
-    padding: 0 20px;
-    text-align: center;
-}
-
-.main-title {
-    font-size: 3.5rem;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-}
-
-.subtitle {
-    font-family: sans-serif;
-    font-weight: normal;
-    color: #66788a;
-    font-size: 1.1rem;
-}
-
+/* --- Directory Grid Section Layout --- */
 .directory-grid-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 25px;
+    /* This creates a perfectly balanced grid that adapts fluidly to both PC and Mobile monitors */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 30px;
     margin-top: 50px;
+    padding: 10px;
 }
 
+/* --- Refined Button Grid Items --- */
 .img-directory-btn {
-    background: #1a1c23;
-    border: 2px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
-    padding: 15px;
+    background: linear-gradient(135deg, rgba(26, 28, 35, 0.6), rgba(17, 19, 24, 0.9));
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 20px;
     cursor: pointer;
     text-align: center;
-    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+    /* Smooth bounce transition style */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+/* Bright cyan border and scaling lift effect on hover */
 .img-directory-btn:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.03);
     border-color: #00f2fe;
+    box-shadow: 0 15px 35px rgba(0, 242, 254, 0.25);
 }
 
+/* --- Image Thumbnail Frames --- */
 .btn-item-thumb {
     width: 100%;
-    height: 160px;
-    object-fit: contain;
-    background: #000000;
-    border-radius: 12px;
-    margin-bottom: 15px;
+    height: 180px;
+    /* 'contain' ensures your Roblox item graphics don't get stretched or cut off */
+    object-fit: contain; 
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.4) 100%);
+    border-radius: 14px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 10px;
+    transition: transform 0.3s ease;
 }
 
+/* Makes the image do a subtle shake/lift inside the button frame on hover */
+.img-directory-btn:hover .btn-item-thumb {
+    transform: scale(1.05);
+}
+
+/* --- Text Formatting Inside Grid --- */
 .btn-item-name {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #ffffff;
     text-transform: uppercase;
-}
-
-/* --- Data Popup Window Modal --- */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(4, 5, 8, 0.9);
-    z-index: 2000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.modal-overlay.active-modal {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal-content {
-    background: #111318;
-    border: 2px solid #00f2fe;
-    border-radius: 24px;
-    width: 90%;
-    max-width: 480px;
-    padding: 35px;
-    position: relative;
-}
-
-.close-modal-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: #888888;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-.close-modal-btn:hover { color: #ffffff; }
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.rarity-badge {
-    background: rgba(155, 89, 182, 0.2);
-    color: #9b59b6;
-    border: 1px solid rgba(155, 89, 182, 0.4);
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-}
-
-.status-badge {
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-}
-.status-rising { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
-.status-stable { background: rgba(52, 152, 219, 0.2); color: #3498db; }
-.status-dropping { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
-
-.stat-line {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-}
-
-.stat-line span:first-child {
-    color: #888888;
-}
-
-.value-section {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 2px solid rgba(255, 255, 255, 0.04);
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    /* Keeps exceptionally long brainrot names nice and neat */
+    word-wrap: break-word; 
 }
