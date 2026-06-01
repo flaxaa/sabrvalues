@@ -37,12 +37,12 @@ fetch('/sabrvalues/ogbrdata.json?v=1.1')
         document.getElementById('directory-grid').innerText = 'Sync Error: Make sure your ogbrdata.json file is formatted correctly without typos!';
     });
 
-// --- 4. Popup Data Modal Window Engine ---
+// --- Updated Popup Data Modal Window Engine ---
 function openModalWithData(unit) {
     const modal = document.getElementById('data-modal');
     const bodyContent = document.getElementById('modal-body-content');
 
-    // Custom coloring logic for your special "Dragon Value" benchmark metric
+    // 1. Safe check for your custom "Dragon Value" benchmark metric
     let dragValueHTML = '';
     if (unit.drag_value && unit.drag_value !== 'N/A' && unit.drag_value !== '0') {
         dragValueHTML = `<span style="color: #ff9f43;">🐉 Dragon Value: ${unit.drag_value}</span>`;
@@ -50,19 +50,24 @@ function openModalWithData(unit) {
         dragValueHTML = `<span style="color: #57606f;">🐉 Dragon Value: Under 1</span>`;
     }
 
-    // Load all the dataset parameters directly inside the dynamic glass popup layout
+    // 2. Safe check for Spyder Elephant's unique "status" tag (if it exists)
+    let statusHTML = '';
+    if (unit.status) {
+        statusHTML = `<span class="status-badge status-dropping" style="background: rgba(231, 76, 60, 0.2); color: #e74c3c;">${unit.status}</span>`;
+    }
+
+    // 3. Load only your preferred dataset parameters inside the popup layout
     bodyContent.innerHTML = `
-        <div class="card-header" style="margin-bottom: 20px;">
+        <div class="card-header" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
             <span class="rarity-badge">${unit.tier}</span>
-            <span class="status-badge status-${unit.status.toLowerCase()}">${unit.status}</span>
+            ${statusHTML}
         </div>
         <h2 style="font-size: 1.8rem; margin-bottom: 25px; color: #fff; text-transform: uppercase;">${unit.name}</h2>
         
         <div class="stat-line"><span>Income Generation:</span> <span>$${unit.income_per_second}/s</span></div>
         <div class="stat-line"><span>Base Buy Price:</span> <span>$${unit.buy_price}</span></div>
         
-        <div class="value-section">
-            <div class="stat-line"><span>Token Trading Value:</span> <span style="color: #00f2fe;">${unit.trading_value}</span></div>
+        <div class="value-section" style="margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(255, 255, 255, 0.04);">
             <div class="stat-line">${dragValueHTML}</div>
             <div class="stat-line" style="margin-top: 10px;"><span>Market Demand:</span> <span style="color: #fff;">${unit.demand}</span></div>
         </div>
