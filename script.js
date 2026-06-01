@@ -113,7 +113,7 @@ function goBackToGrid() {
 
 
 // ==========================================
-// --- 3. TRADE CALCULATOR SYSTEM ENGINE ---
+// --- 3. AUTOMATED TRADE CALCULATOR ENGINE ---
 // ==========================================
 let tradeSideA = [];
 let tradeSideB = [];
@@ -122,23 +122,22 @@ function populateTradeDropdowns() {
     const selectA = document.getElementById('select-side-a');
     const selectB = document.getElementById('select-side-b');
     
-    if(!selectA || !selectB) return; // Fail-safe check
+    if(!selectA || !selectB) return; 
 
-    globalDataset.forEach(unit => {
+    // Sort items by value weight in the dropdown menu so it looks clean
+    const sortedDataset = [...globalDataset].sort((a, b) => b.rank_weight - a.rank_weight);
+
+    selectA.innerHTML = '<option value="">-- Select an Item --</option>';
+    selectB.innerHTML = '<option value="">-- Select an Item --</option>';
+
+    sortedDataset.forEach(unit => {
+        // Skip un-tradable items in the calculator selection
+        if(unit.rank_weight === 0 || unit.demand.includes("Un-Tradable")) return;
+        
         const option = `<option value="${unit.id}">${unit.name}</option>`;
         selectA.innerHTML += option;
         selectB.innerHTML += option;
     });
-}
-
-function parseDragonValue(valStr) {
-    if (!valStr || valStr === 'N/A' || valStr === '0') return 0;
-    // Safely average out value ranges like "13-14" down to 13.5 for clean math logic
-    if (valStr.includes('-')) {
-        const parts = valStr.split('-');
-        return (parseFloat(parts[0]) + parseFloat(parts[1])) / 2;
-    }
-    return parseFloat(valStr);
 }
 
 function addToTrade(side) {
@@ -161,60 +160,62 @@ function removeFromTrade(side, index) {
 }
 
 function updateTradeUI() {
-    let totalA = 0;
-    let totalB = 0;
+    let totalWeightA = 0;
+    let totalWeightB = 0;
     const listA = document.getElementById('items-side-a');
     const listB = document.getElementById('items-side-b');
     
     listA.innerHTML = '';
     listB.innerHTML = '';
 
+    // Accumulate Side A Value
     tradeSideA.forEach((unit, index) => {
-        let val = parseDragonValue(unit.drag_value);
-        totalA += val;
+        totalWeightA += unit.rank_weight;
         listA.innerHTML += `
             <div class="trade-row">
-                <span>${unit.name} <span style="color:#00f2fe;">(${val} 🐉)</span></span>
+                <span>${unit.name}</span>
                 <button class="remove-btn" onclick="removeFromTrade('A', ${index})">X</button>
             </div>
         `;
     });
 
+    // Accumulate Side B Value
     tradeSideB.forEach((unit, index) => {
-        let val = parseDragonValue(unit.drag_value);
-        totalB += val;
+        totalWeightB += unit.rank_weight;
         listB.innerHTML += `
             <div class="trade-row">
-                <span>${unit.name} <span style="color:#ff9f43;">(${val} 🐉)</span></span>
+                <span>${unit.name}</span>
                 <button class="remove-btn" onclick="removeFromTrade('B', ${index})">X</button>
             </div>
         `;
     });
 
-    document.getElementById('total-side-a').innerText = totalA.toFixed(1);
-    document.getElementById('total-side-b').innerText = totalB.toFixed(1);
+    // Display simplified total calculations based on power tiers
+    document.getElementById('total-side-a').innerText = totalWeightA.toFixed(1);
+    document.getElementById('total-side-b').innerText = totalWeightB.toFixed(1);
 
     const resultText = document.getElementById('trade-result-text');
     const diffText = document.getElementById('trade-difference');
     const verdictBox = document.querySelector('.trade-verdict-box');
     
-    if (totalA === 0 && totalB === 0) {
+    if (tradeSideA.length === 0 && tradeSideB.length === 0) {
         resultText.innerText = "ADD ITEMS";
         resultText.style.color = "#57606f";
-        diffText.innerText = "Difference: 0 🐉";
+        diffText.innerText = "Difference: 0";
         verdictBox.style.borderColor = "#333";
         return;
     }
 
-    const difference = totalB - totalA;
-    diffText.innerText = `Difference: ${difference > 0 ? '+' : ''}${difference.toFixed(1)} 🐉`;
+    const valueDifference = totalWeightB - totalWeightA;
+    diffText.innerText = `Value Margin: ${valueDifference > 0 ? '+' : ''}${valueDifference.toFixed(1)}`;
 
-    // Verdict threshold parameters
-    if (Math.abs(difference) <= 1) {
+    // Automated verdict evaluation framework
+    // Fair range accounts for minor balance variations (within 0.5 points)
+    if (Math.abs(valueDifference) <= 0.5) {
         resultText.innerText = "FAIR (F)";
         resultText.style.color = "#f1c40f"; 
         verdictBox.style.borderColor = "#f1c40f";
-    } else if (difference > 1) {
+    } else if (valueDifference > 0.5) {
         resultText.innerText = "WIN (W)";
         resultText.style.color = "#2ecc71"; 
         verdictBox.style.borderColor = "#2ecc71";
@@ -224,17 +225,4 @@ function updateTradeUI() {
         verdictBox.style.borderColor = "#e74c3c";
     }
 }
-
-// --- Global Page Swapping Navigation Utility ---
-function showPage(pageId) {
-    document.querySelectorAll('.page-section').forEach(section => {
-        section.style.display = 'none';
-        section.classList.remove('active-page');
-    });
-    
-    const targetPage = document.getElementById(pageId);
-    if(targetPage) {
-        targetPage.style.display = 'block';
-        targetPage.classList.add('active-page');
-    }
 }
