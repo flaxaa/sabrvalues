@@ -37,6 +37,43 @@
         </div>
     </div>
 
+    <div id="trade-page" class="page-section" style="display: none;">
+    <div class="main-container" style="max-width: 1000px;">
+        <h1 class="main-title">Trade Calculator</h1>
+        <p class="subtitle" style="margin-bottom: 40px;">Calculate net Dragon Values to see if your trade is a W or an L.</p>
+
+        <div class="trade-grid">
+            <div class="trade-side" id="side-a-box">
+                <h2 style="color: #00f2fe; margin-bottom: 15px;">Your Offer (Side A)</h2>
+                <select id="select-side-a" class="trade-dropdown">
+                    <option value="">-- Select an Item --</option>
+                    </select>
+                <button class="cta-button add-btn" onclick="addToTrade('A')">Add to Trade</button>
+                
+                <div id="items-side-a" class="trade-item-list"></div>
+                <div class="trade-total">Total Value: <span id="total-side-a">0</span> 🐉</div>
+            </div>
+
+            <div class="trade-side" id="side-b-box">
+                <h2 style="color: #ff9f43; margin-bottom: 15px;">Their Offer (Side B)</h2>
+                <select id="select-side-b" class="trade-dropdown">
+                    <option value="">-- Select an Item --</option>
+                    </select>
+                <button class="cta-button add-btn" onclick="addToTrade('B')" style="background: #ff9f43; box-shadow: 0 0 20px rgba(255, 159, 67, 0.4);">Add to Trade</button>
+                
+                <div id="items-side-b" class="trade-item-list"></div>
+                <div class="trade-total">Total Value: <span id="total-side-b">0</span> 🐉</div>
+            </div>
+        </div>
+
+        <div class="trade-verdict-box">
+            <h2>TRADE VERDICT</h2>
+            <div id="trade-result-text" style="font-size: 3rem; margin-top: 10px; color: #57606f;">ADD ITEMS</div>
+            <div id="trade-difference" style="color: #aaa; margin-top: 10px;">Difference: 0 🐉</div>
+        </div>
+    </div>
+</div>
+
     <div id="item-detail-page" class="page-section" style="display: none;">
     <div class="main-container">
         <button onclick="goBackToGrid()" class="cta-button" style="padding: 10px 25px; font-size: 1rem; margin-bottom: 30px;">← Back to Values</button>
