@@ -1,5 +1,8 @@
+// Keep a global copy of the dataset so the Trade Calculator can use it
+let globalDataset = []; 
+
 // 1. Fetch your comprehensive OG dataset file
-fetch('/sabrvalues/ogbrdata.json?v=1.1')
+fetch('/sabrvalues/ogbrdata.json?v=1.2') // Incremented version to bust cache
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -7,11 +10,13 @@ fetch('/sabrvalues/ogbrdata.json?v=1.1')
         return response.json();
     })
     .then(data => {
+        globalDataset = data.og_units; // Store the units globally for the calculator
+        
         const directory = document.getElementById('directory-grid');
         directory.innerHTML = ''; // Clear out the loading placeholder text
 
         // 2. Loop through every single unit inside your JSON array
-            data.og_units.forEach(unit => {
+        data.og_units.forEach(unit => {
             // Create the structural button card element
             const btn = document.createElement('div');
             btn.className = 'img-directory-btn';
@@ -31,6 +36,9 @@ fetch('/sabrvalues/ogbrdata.json?v=1.1')
             // Throw the newly created button into your website's directory grid
             directory.appendChild(btn);
         });
+
+        // Initialize the trade dropdowns now that data has arrived
+        populateTradeDropdowns();
     })
     .catch(error => {
         console.error('Data pull failed:', error);
@@ -101,4 +109,132 @@ function goBackToGrid() {
     const valuesPage = document.getElementById('values-page');
     valuesPage.style.display = 'block';
     valuesPage.classList.add('active-page');
+}
+
+
+// ==========================================
+// --- 3. TRADE CALCULATOR SYSTEM ENGINE ---
+// ==========================================
+let tradeSideA = [];
+let tradeSideB = [];
+
+function populateTradeDropdowns() {
+    const selectA = document.getElementById('select-side-a');
+    const selectB = document.getElementById('select-side-b');
+    
+    if(!selectA || !selectB) return; // Fail-safe check
+
+    globalDataset.forEach(unit => {
+        const option = `<option value="${unit.id}">${unit.name}</option>`;
+        selectA.innerHTML += option;
+        selectB.innerHTML += option;
+    });
+}
+
+function parseDragonValue(valStr) {
+    if (!valStr || valStr === 'N/A' || valStr === '0') return 0;
+    // Safely average out value ranges like "13-14" down to 13.5 for clean math logic
+    if (valStr.includes('-')) {
+        const parts = valStr.split('-');
+        return (parseFloat(parts[0]) + parseFloat(parts[1])) / 2;
+    }
+    return parseFloat(valStr);
+}
+
+function addToTrade(side) {
+    const selectElement = document.getElementById(`select-side-${side.toLowerCase()}`);
+    const unitId = selectElement.value;
+    if (!unitId) return;
+
+    const unit = globalDataset.find(u => u.id === unitId);
+    
+    if (side === 'A') tradeSideA.push(unit);
+    else tradeSideB.push(unit);
+
+    updateTradeUI();
+}
+
+function removeFromTrade(side, index) {
+    if (side === 'A') tradeSideA.splice(index, 1);
+    else tradeSideB.splice(index, 1);
+    updateTradeUI();
+}
+
+function updateTradeUI() {
+    let totalA = 0;
+    let totalB = 0;
+    const listA = document.getElementById('items-side-a');
+    const listB = document.getElementById('items-side-b');
+    
+    listA.innerHTML = '';
+    listB.innerHTML = '';
+
+    tradeSideA.forEach((unit, index) => {
+        let val = parseDragonValue(unit.drag_value);
+        totalA += val;
+        listA.innerHTML += `
+            <div class="trade-row">
+                <span>${unit.name} <span style="color:#00f2fe;">(${val} 🐉)</span></span>
+                <button class="remove-btn" onclick="removeFromTrade('A', ${index})">X</button>
+            </div>
+        `;
+    });
+
+    tradeSideB.forEach((unit, index) => {
+        let val = parseDragonValue(unit.drag_value);
+        totalB += val;
+        listB.innerHTML += `
+            <div class="trade-row">
+                <span>${unit.name} <span style="color:#ff9f43;">(${val} 🐉)</span></span>
+                <button class="remove-btn" onclick="removeFromTrade('B', ${index})">X</button>
+            </div>
+        `;
+    });
+
+    document.getElementById('total-side-a').innerText = totalA.toFixed(1);
+    document.getElementById('total-side-b').innerText = totalB.toFixed(1);
+
+    const resultText = document.getElementById('trade-result-text');
+    const diffText = document.getElementById('trade-difference');
+    const verdictBox = document.querySelector('.trade-verdict-box');
+    
+    if (totalA === 0 && totalB === 0) {
+        resultText.innerText = "ADD ITEMS";
+        resultText.style.color = "#57606f";
+        diffText.innerText = "Difference: 0 🐉";
+        verdictBox.style.borderColor = "#333";
+        return;
+    }
+
+    const difference = totalB - totalA;
+    diffText.innerText = `Difference: ${difference > 0 ? '+' : ''}${difference.toFixed(1)} 🐉`;
+
+    // Verdict threshold parameters
+    if (Math.abs(difference) <= 1) {
+        resultText.innerText = "FAIR (F)";
+        resultText.style.color = "#f1c40f"; 
+        verdictBox.style.borderColor = "#f1c40f";
+    } else if (difference > 1) {
+        resultText.innerText = "WIN (W)";
+        resultText.style.color = "#2ecc71"; 
+        verdictBox.style.borderColor = "#2ecc71";
+    } else {
+        resultText.innerText = "LOSS (L)";
+        resultText.style.color = "#e74c3c"; 
+        verdictBox.style.borderColor = "#e74c3c";
+    }
+}
+
+// --- Global Page Swapping Navigation Utility ---
+function showPage(pageId) {
+    document.querySelectorAll('.page-section').forEach(section => {
+        section.style.display = 'none';
+        section.classList.remove('active-page');
+    });
+    
+    const targetPage = document.getElementById(pageId);
+    if(targetPage) {
+        targetPage.style.display = 'block';
+        targetPage.classList.add('active-page');
+    }
 }
