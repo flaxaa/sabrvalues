@@ -4,11 +4,11 @@
     margin: 0;
     padding: 0;
     font-family: 'Arial Black', 'Impact', sans-serif; 
-    font-weight: 900;
+    font-weight: 750;
 }
 
 body {
-    background-color: #0b0c10;
+    background-color: #121212;
     color: #ffffff;
     min-height: 100vh;
     overflow-x: hidden;
@@ -21,10 +21,10 @@ body {
     left: 0;
     width: 8px;
     height: 8px;
-    background: #00f2fe;
+    background: #eb1a1a;
     border-radius: 50%;
     pointer-events: none;
-    box-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe;
+    box-shadow: 0 0 10px #eb1a1a, 0 0 20px #eb1a1a;
     transform: translate(-50%, -50%);
     transition: transform 0.05s linear;
     z-index: 9999;
