@@ -3,133 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SABR Values | Home</title>
-    
-    <link rel="stylesheet" href="/sabrvalues/style.css?v=2.0">
+    <title>SABR Values</title>
+    <link rel="stylesheet" href="style.css?v=1.5">
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="nav-logo" onclick="showPage('home')">SABR VALUES</div>
+        <div class="logo">SABR VALUES</div>
         <div class="nav-links">
-                <a onclick="showPage('home-page')" class="nav-item">HOME</a>
-                <a onclick="showPage('values-page')" class="nav-item">VALUES</a>
-                <a onclick="showPage('trade-page')" class="nav-item">TRADE CALCULATOR</a>
-            </div>
+            <a onclick="showPage('home-page')" class="nav-item">HOME</a>
+            <a onclick="showPage('values-page')" class="nav-item">VALUES</a>
         </div>
     </nav>
 
     <div id="home-page" class="page-section active-page">
         <div class="hero-container">
-            <img src="banner.png" alt="SABR Meta Artwork" class="hero-image">
-            <h1 class="hero-title">THE BEST SAB VALUES TRACKER</h1>
-            <button class="cta-button" onclick="showPage('values-page')">SEE VALUES</button>
+            <h1 class="main-title">Brainrot Values</h1>
+            <button class="cta-button" onclick="showPage('values-page')">Click here to see VALUES</button>
         </div>
     </div>
 
-    <div id="values-page" class="page-section">
+    <div id="values-page" class="page-section" style="display: none;">
         <div class="main-container">
-            <h1 class="main-title">OG BRAINROT DIRECTORY</h1>
-            <p class="subtitle">Select an OG tier brainrot below to unpack its market parameters and trading depth.</p>
+            <h1 class="main-title">Brainrot Catalog</h1>
+            <p class="subtitle">Click any unit below to inspect its historical data profile, market demand, and legacy status.</p>
             
-            <div id="directory-grid" class="directory-grid-layout">Loading database units...</div>
-        </div>
-    </div>
-
-    <div id="trade-page" class="page-section" style="display: none;">
-    <div class="main-container" style="max-width: 1000px;">
-        <h1 class="main-title">Trade Calculator</h1>
-        <p class="subtitle" style="margin-bottom: 40px;">Calculate net Dragon Values to see if your trade is a W or an L.</p>
-
-        <div class="trade-grid">
-            <div class="trade-side" id="side-a-box">
-                <h2 style="color: #00f2fe; margin-bottom: 15px;">Your Offer (Side A)</h2>
-                <select id="select-side-a" class="trade-dropdown">
-                    <option value="">-- Select an Item --</option>
-                    </select>
-                <button class="cta-button add-btn" onclick="addToTrade('A')">Add to Trade</button>
-                
-                <div id="items-side-a" class="trade-item-list"></div>
-                <div class="trade-total">Total Value: <span id="total-side-a">0</span> 🐉</div>
-            </div>
-
-            <div class="trade-side" id="side-b-box">
-                <h2 style="color: #ff9f43; margin-bottom: 15px;">Their Offer (Side B)</h2>
-                <select id="select-side-b" class="trade-dropdown">
-                    <option value="">-- Select an Item --</option>
-                    </select>
-                <button class="cta-button add-btn" onclick="addToTrade('B')" style="background: #ff9f43; box-shadow: 0 0 20px rgba(255, 159, 67, 0.4);">Add to Trade</button>
-                
-                <div id="items-side-b" class="trade-item-list"></div>
-                <div class="trade-total">Total Value: <span id="total-side-b">0</span> 🐉</div>
+            <div id="directory-grid" class="directory-grid">
+                <div class="loading-text">Loading secure database...</div>
             </div>
         </div>
-
-        <div class="trade-verdict-box">
-            <h2>TRADE VERDICT</h2>
-            <div id="trade-result-text" style="font-size: 3rem; margin-top: 10px; color: #57606f;">ADD ITEMS</div>
-            <div id="trade-difference" style="color: #aaa; margin-top: 10px;">Difference: 0 🐉</div>
-        </div>
     </div>
-</div>
 
     <div id="item-detail-page" class="page-section" style="display: none;">
-    <div class="main-container">
-        <button onclick="goBackToGrid()" class="cta-button" style="padding: 10px 25px; font-size: 1rem; margin-bottom: 30px;">← Back to Values</button>
-        
-        <div id="dynamic-item-profile"></div>
-    </div>
-</div>
-
-    <div id="data-modal" class="modal-overlay" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="close-modal-btn" onclick="closeModal()">&times;</button>
-            <div id="modal-body-content">
-                </div>
+        <div class="main-container">
+            <button onclick="goBackToGrid()" class="cta-button" style="padding: 10px 25px; font-size: 1rem; margin-bottom: 30px; background: #222; border-color: #444;">← Back to Catalog</button>
+            
+            <div id="dynamic-item-profile"></div>
         </div>
     </div>
 
-    <script>
-        // --- Page Navigation Engine ---
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active-page'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-
-            // Show selected page
-            document.getElementById(pageId + '-page').classList.add('active-page');
-            document.getElementById('nav-' + pageId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        // --- Custom Particle Cursor Tracker ---
-        const body = document.body;
-        const maxParticles = 12;
-        const particles = [];
-
-        window.addEventListener('mousemove', (e) => {
-            const particle = document.createElement('div');
-            particle.className = 'cursor-particle';
-            particle.style.left = e.clientX + 'px';
-            particle.style.top = e.clientY + 'px';
-            
-            body.appendChild(particle);
-            particles.push(particle);
-
-            setTimeout(() => {
-                particle.style.transform = 'translate(-50%, -50%) scale(0)';
-                particle.style.opacity = '0';
-            }, 60);
-
-            if (particles.length > maxParticles) {
-                const oldParticle = particles.shift();
-                oldParticle.remove();
-            }
-        });
-    </script>
-    
-    <script src="script.js"></script>
-
-    <script src="/sabrvalues/script.js?v=1.4"></script>
+    <script src="/sabrvalues/script.js?v=1.5"></script>
 </body>
 </html>
